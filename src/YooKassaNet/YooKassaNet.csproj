@@ -7,7 +7,7 @@
     <PackageId>YooKassaNet</PackageId>
     <Title>YooKassaNet</Title>
     <RootNamespace>YooKassaNet</RootNamespace>
-    <Description>Dependency-light .NET SDK for the YooKassa (ЮKassa) API v3: payments, refunds, payouts and safe deals, with a shared HTTP/auth/idempotency core and typed models.</Description>
+    <Description>.NET SDK for the YooKassa (ЮKassa) API v3: payments, refunds, payouts and safe deals, with a shared HTTP/auth/idempotency core and typed models.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon Condition="Exists('../../assets/icon.png')">icon.png</PackageIcon>

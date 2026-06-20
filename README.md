@@ -9,13 +9,14 @@
   <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/nuget/v/YooKassaNet.svg" alt="NuGet" /></a>
 </p>
 
-🇬🇧 English version: [README.en.md](README.en.md).
+<p align="center">
+  <a href="README.en.md"><img src="https://img.shields.io/badge/README-English-0058D6?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Read in English" /></a>
+</p>
 
 .NET SDK для [API ЮKassa v3](https://yookassa.ru/developers/api): **платежи**, **возвраты**, **выплаты** и **безопасные сделки**, а также webhook и настройки магазина — поставляется **одним пакетом**.
 
 - Таргеты: `netstandard2.0`, `net8.0`, `net10.0`.
-- Только `HttpClient` + `System.Text.Json` (без сторонних зависимостей).
-- Типизированные перечисления для всех значений протокола. Неизвестное значение из API приводит к `YooKassaProtocolException` со ссылкой на [issues/new](https://github.com/ai-iskuzhin/YooKassaNet/issues/new), чтобы его можно было быстро добавить.
+- Только `HttpClient` + `System.Text.Json`.
 
 > Платежи, выплаты и сделки — это один API (общий хост, одна версия `v3`) с общими примитивами: `Money`, идемпотентность, модель ошибок, курсорная постраничность. Они поставляются вместе как `YooKassaNet`, разделенные внутри по областям, с отдельным типизированным клиентом на каждую область — чтобы выплаты могли использовать свои учетные данные шлюза.
 
@@ -154,6 +155,43 @@ await payments.CreatePaymentAsync(request, idempotenceKey: "order-37-create");
 | `YooKassaTransportException` | Сетевой сбой до получения ответа. |
 | `YooKassaProtocolException` | Ответ не удалось разобрать — в том числе **значение перечисления, неизвестное SDK** (пожалуйста, [сообщите](https://github.com/ai-iskuzhin/YooKassaNet/issues/new)). |
 | `YooKassaValidationException` | Локальная валидация не пройдена до отправки. |
+
+## Поддерживаемое API
+
+YooKassaNet включает типизированную поддержку:
+
+**Платежи и возвраты** (`YooKassaPaymentsClient`)
+- [Создание платежа](https://yookassa.ru/developers/api#create_payment) — `CreatePaymentAsync`
+- [Информация о платеже](https://yookassa.ru/developers/api#get_payment) — `GetPaymentAsync`
+- [Список платежей](https://yookassa.ru/developers/api#get_payments_list) — `GetPaymentsAsync`
+- [Подтверждение платежа](https://yookassa.ru/developers/api#capture_payment) — `CapturePaymentAsync`
+- [Отмена платежа](https://yookassa.ru/developers/api#cancel_payment) — `CancelPaymentAsync`
+- [Создание возврата](https://yookassa.ru/developers/api#create_refund) — `CreateRefundAsync`
+- [Информация о возврате](https://yookassa.ru/developers/api#get_refund) — `GetRefundAsync`
+- [Список возвратов](https://yookassa.ru/developers/api#get_refunds_list) — `GetRefundsAsync`
+
+**Выплаты** (`YooKassaPayoutsClient`)
+- [Создание выплаты](https://yookassa.ru/developers/api#create_payout) — `CreatePayoutAsync`
+- [Информация о выплате](https://yookassa.ru/developers/api#get_payout) — `GetPayoutAsync`
+- [Список участников СБП](https://yookassa.ru/developers/api#get_sbp_banks_list) — `GetSbpBanksAsync`
+- [Создание персональных данных](https://yookassa.ru/developers/api#create_personal_data) — `CreatePersonalDataAsync`
+- [Информация о персональных данных](https://yookassa.ru/developers/api#get_personal_data) — `GetPersonalDataAsync`
+
+**Безопасные сделки** (`YooKassaDealsClient`)
+- [Создание сделки](https://yookassa.ru/developers/api#create_deal) — `CreateDealAsync`
+- [Информация о сделке](https://yookassa.ru/developers/api#get_deal) — `GetDealAsync`
+- [Список сделок](https://yookassa.ru/developers/api#get_deals_list) — `GetDealsAsync`
+
+**Webhook** (`YooKassaWebhooksClient`)
+- [Создание webhook](https://yookassa.ru/developers/api#create_webhook) — `CreateWebhookAsync`
+- [Список webhook](https://yookassa.ru/developers/api#get_webhook_list) — `GetWebhooksAsync`
+- [Удаление webhook](https://yookassa.ru/developers/api#delete_webhook) — `DeleteWebhookAsync`
+- [Разбор входящих уведомлений](https://yookassa.ru/developers/using-api/webhooks) — `YooKassaNotification.Parse`
+
+**Магазин**
+- [Информация о настройках](https://yookassa.ru/developers/api#get_me) — `GetMeAsync` (на `YooKassaClient`)
+
+Пока не покрыто отдельными методами: [способы оплаты](https://yookassa.ru/developers/api#payment_method_object), [счета](https://yookassa.ru/developers/api#invoice_object), [чеки](https://yookassa.ru/developers/api#receipt_object) и [поиск выплат](https://yookassa.ru/developers/api#get_payouts_search). Чеки 54-ФЗ можно передавать внутри платежей, возвратов и выплат через свойство `Receipt`.
 
 ## Структура репозитория
 

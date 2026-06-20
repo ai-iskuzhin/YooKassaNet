@@ -9,13 +9,14 @@
   <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/nuget/v/YooKassaNet.svg" alt="NuGet" /></a>
 </p>
 
-🇷🇺 Русская версия: [README.md](README.md).
+<p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/README-Русский-0058D6?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Читать на русском" /></a>
+</p>
 
 .NET SDK for the [YooKassa (ЮKassa) API v3](https://yookassa.ru/developers/api): **payments**, **refunds**, **payouts**, and **safe deals**, plus webhooks and shop settings — shipped as a **single package**.
 
 - Targets `netstandard2.0`, `net8.0`, `net10.0`.
-- Only `HttpClient` + `System.Text.Json` (no third-party runtime dependencies).
-- Typed enums for every protocol value. An unmapped value from the API throws a `YooKassaProtocolException` pointing to [issues/new](https://github.com/ai-iskuzhin/YooKassaNet/issues/new) so it can be added quickly.
+- Only `HttpClient` + `System.Text.Json`.
 
 > Payments, payouts and deals are one API (same host, one `v3` version) sharing the same primitives — `Money`, idempotency, error model, cursor pagination. They ship together as `YooKassaNet`, organized internally by area, with a separate typed client per area so payouts can use their own gateway credentials.
 
@@ -154,6 +155,43 @@ await payments.CreatePaymentAsync(request, idempotenceKey: "order-37-create");
 | `YooKassaTransportException` | Network failure before a response was received. |
 | `YooKassaProtocolException` | Response could not be parsed — including an **enum value this SDK doesn't know yet** (please [report it](https://github.com/ai-iskuzhin/YooKassaNet/issues/new)). |
 | `YooKassaValidationException` | Local validation failed before sending. |
+
+## Supported API
+
+YooKassaNet provides typed support for:
+
+**Payments and refunds** (`YooKassaPaymentsClient`)
+- [Create payment](https://yookassa.ru/developers/api#create_payment) — `CreatePaymentAsync`
+- [Get payment](https://yookassa.ru/developers/api#get_payment) — `GetPaymentAsync`
+- [List payments](https://yookassa.ru/developers/api#get_payments_list) — `GetPaymentsAsync`
+- [Capture payment](https://yookassa.ru/developers/api#capture_payment) — `CapturePaymentAsync`
+- [Cancel payment](https://yookassa.ru/developers/api#cancel_payment) — `CancelPaymentAsync`
+- [Create refund](https://yookassa.ru/developers/api#create_refund) — `CreateRefundAsync`
+- [Get refund](https://yookassa.ru/developers/api#get_refund) — `GetRefundAsync`
+- [List refunds](https://yookassa.ru/developers/api#get_refunds_list) — `GetRefundsAsync`
+
+**Payouts** (`YooKassaPayoutsClient`)
+- [Create payout](https://yookassa.ru/developers/api#create_payout) — `CreatePayoutAsync`
+- [Get payout](https://yookassa.ru/developers/api#get_payout) — `GetPayoutAsync`
+- [List SBP banks](https://yookassa.ru/developers/api#get_sbp_banks_list) — `GetSbpBanksAsync`
+- [Create personal data](https://yookassa.ru/developers/api#create_personal_data) — `CreatePersonalDataAsync`
+- [Get personal data](https://yookassa.ru/developers/api#get_personal_data) — `GetPersonalDataAsync`
+
+**Safe deals** (`YooKassaDealsClient`)
+- [Create deal](https://yookassa.ru/developers/api#create_deal) — `CreateDealAsync`
+- [Get deal](https://yookassa.ru/developers/api#get_deal) — `GetDealAsync`
+- [List deals](https://yookassa.ru/developers/api#get_deals_list) — `GetDealsAsync`
+
+**Webhooks** (`YooKassaWebhooksClient`)
+- [Create webhook](https://yookassa.ru/developers/api#create_webhook) — `CreateWebhookAsync`
+- [List webhooks](https://yookassa.ru/developers/api#get_webhook_list) — `GetWebhooksAsync`
+- [Delete webhook](https://yookassa.ru/developers/api#delete_webhook) — `DeleteWebhookAsync`
+- [Parse incoming notifications](https://yookassa.ru/developers/using-api/webhooks) — `YooKassaNotification.Parse`
+
+**Shop**
+- [Get shop settings](https://yookassa.ru/developers/api#get_me) — `GetMeAsync` (on `YooKassaClient`)
+
+Not yet exposed as dedicated methods: [payment methods](https://yookassa.ru/developers/api#payment_method_object), [invoices](https://yookassa.ru/developers/api#invoice_object), [receipts](https://yookassa.ru/developers/api#receipt_object), and [payout search](https://yookassa.ru/developers/api#get_payouts_search). 54-FZ receipts can be sent inline on payments, refunds, and payouts via the `Receipt` property.
 
 ## Repository layout
 

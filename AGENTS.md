@@ -4,7 +4,7 @@ This file gives AI coding agents and maintainers the project-specific rules that
 
 ## Purpose
 
-`YooKassaNet` is a dependency-light .NET SDK for the YooKassa (ЮKassa) API v3. It provides typed clients,
+`YooKassaNet` is a .NET SDK for the YooKassa (ЮKassa) API v3. It provides typed clients,
 request/response models, and notification parsing for payments, refunds, payouts, safe deals, and webhooks.
 It should not contain application-specific business rules, ASP.NET Core endpoints, ORMs, or persistence.
 
