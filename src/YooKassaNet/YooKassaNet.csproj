@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>YooKassaNet</PackageId>
+    <Title>YooKassaNet</Title>
+    <RootNamespace>YooKassaNet</RootNamespace>
+    <Description>Dependency-light .NET SDK for the YooKassa (ЮKassa) API v3: payments, refunds, payouts and safe deals, with a shared HTTP/auth/idempotency core and typed models.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon Condition="Exists('../../assets/icon.png')">icon.png</PackageIcon>
+    <!-- Validate that the public API surface stays consistent across all target frameworks. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="YooKassaNet.Tests" />
+  </ItemGroup>
+
+  <!-- Polyfills for language features (records, init, required, CallerArgumentExpression) on older targets. -->
+  <ItemGroup>
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!--
+    System.Text.Json and HttpClient JSON helpers are in-box on net8.0+ but need packages on
+    netstandard2.0. These versions are a minimum floor (NuGet resolves upward), so we target the
+    lowest still-supported, security-patched LTS line to avoid forcing integrators onto newer
+    versions than they need. None of the APIs we use require a version newer than this.
+  -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('../../assets/icon.png')">
+    <None Include="../../assets/icon.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

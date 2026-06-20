@@ -1,0 +1,88 @@
+name: Release
+
+# Fires on a version tag (e.g. v0.1.0-preview.1): builds, tests, creates the GitHub
+# Release, and publishes to NuGet.org via Trusted Publishing (OIDC — no stored API key).
+#
+# One-time setup on nuget.org: configure a Trusted Publishing policy for package
+# "YooKassaNet" bound to this repository and the "Release" workflow, then set the
+# repository variable NUGET_USER to your nuget.org account name.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # create the GitHub Release
+  id-token: write   # request the OIDC token for NuGet Trusted Publishing
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  release:
+    name: Build, release, publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Compute version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore
+        run: dotnet restore YooKassaNet.slnx
+
+      - name: Build
+        run: dotnet build YooKassaNet.slnx --configuration Release --no-restore -p:Version=${{ steps.version.outputs.version }}
+
+      - name: Test
+        run: dotnet test tests/YooKassaNet.Tests/YooKassaNet.Tests.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: >
+          dotnet pack src/YooKassaNet/YooKassaNet.csproj
+          --configuration Release
+          --no-build
+          --output artifacts/packages
+          -p:Version=${{ steps.version.outputs.version }}
+          -p:PackageVersion=${{ steps.version.outputs.version }}
+          -p:InformationalVersion=${{ steps.version.outputs.version }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          args=(
+            artifacts/packages/*
+            --title "YooKassaNet ${TAG_NAME#v}"
+            --generate-notes
+            --verify-tag
+          )
+          if [[ "$TAG_NAME" == *-* ]]; then
+            args+=(--prerelease)
+          fi
+          gh release create "$TAG_NAME" "${args[@]}"
+
+      - name: NuGet login (Trusted Publishing)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push to NuGet
+        run: >
+          dotnet nuget push artifacts/packages/*.nupkg
+          --source https://api.nuget.org/v3/index.json
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          --skip-duplicate

@@ -1,0 +1,77 @@
+name: Publish to NuGet
+
+# Manual publish of a specific ref/version to NuGet.org via Trusted Publishing (OIDC).
+# Use when you need to publish outside the tag-driven Release flow.
+#
+# One-time setup on nuget.org: configure a Trusted Publishing policy for package
+# "YooKassaNet" bound to this repository and the "Publish to NuGet" workflow, then set
+# the repository variable NUGET_USER to your nuget.org account name.
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_ref:
+        description: 'Git ref to publish from, e.g. v0.1.0-preview.1 or main'
+        required: true
+        type: string
+      version:
+        description: 'Package version to publish, e.g. 0.1.0-preview.1'
+        required: true
+        type: string
+
+permissions:
+  id-token: write   # request the OIDC token for NuGet Trusted Publishing
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.git_ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore YooKassaNet.slnx
+
+      - name: Build
+        run: dotnet build YooKassaNet.slnx --configuration Release --no-restore -p:Version=${{ inputs.version }}
+
+      - name: Test
+        run: dotnet test tests/YooKassaNet.Tests/YooKassaNet.Tests.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: >
+          dotnet pack src/YooKassaNet/YooKassaNet.csproj
+          --configuration Release
+          --no-build
+          --output artifacts/packages
+          -p:Version=${{ inputs.version }}
+          -p:PackageVersion=${{ inputs.version }}
+          -p:InformationalVersion=${{ inputs.version }}
+
+      - name: NuGet login (Trusted Publishing)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push to NuGet
+        run: >
+          dotnet nuget push artifacts/packages/*.nupkg
+          --source https://api.nuget.org/v3/index.json
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          --skip-duplicate

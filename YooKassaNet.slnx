@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YooKassaNet/YooKassaNet.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/YooKassaNet.Tests/YooKassaNet.Tests.csproj" />
+    <Project Path="tests/YooKassaNet.Tests.Integration/YooKassaNet.Tests.Integration.csproj" />
+  </Folder>
+</Solution>

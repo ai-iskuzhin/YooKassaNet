@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore YooKassaNet.slnx
+
+      - name: Build
+        run: dotnet build YooKassaNet.slnx --configuration Release --no-restore
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore YooKassaNet.slnx
+
+      - name: Build
+        run: dotnet build YooKassaNet.slnx --configuration Release --no-restore
+
+      # Unit tests only. Integration tests are skipped without YOOKASSA_* credentials.
+      - name: Test
+        run: dotnet test tests/YooKassaNet.Tests/YooKassaNet.Tests.csproj --configuration Release --no-build --verbosity normal
+
+  pack:
+    name: Pack
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore YooKassaNet.slnx
+
+      - name: Build
+        run: dotnet build YooKassaNet.slnx --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack src/YooKassaNet/YooKassaNet.csproj --configuration Release --no-build --output artifacts/packages
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v5
+        with:
+          name: packages
+          path: artifacts/packages/*

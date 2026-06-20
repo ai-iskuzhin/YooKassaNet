@@ -1,0 +1,30 @@
+<svg width="512" height="512" viewBox="0 0 240 240" preserveAspectRatio="xMidYMid meet" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>YooKassaNet logo</title>
+  <desc>Square gradient blue badge with the YooKassa mark and a .NET purple badge.</desc>
+  <defs>
+    <linearGradient id="yk" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2A8CFF"/>
+      <stop offset="1" stop-color="#0058D6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="240" height="240" fill="url(#yk)"/>
+  <path d="M0 0 L240 0 L240 150 A240 240 0 0 0 0 0 Z" fill="#ffffff" opacity="0.07"/>
+
+  <!-- YooKassa mark -->
+  <g transform="translate(60 56) scale(1.3)" fill="#ffffff">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M32.2876 39.8909C32.3458 17.9154 49.9814 0 72.1424 0C94.0879 0 112.25 17.9747 111.997 40C111.997 62.0253 94.0879 80 72.1424 80C50.2329 80 32.3462 62.3366 32.2876 40.1096V69.8734H18.1618L0 11.6455H32.2876V39.8909ZM57.2598 40C57.2598 48.1013 64.0705 54.9367 72.1424 54.9367C80.4666 54.9367 87.025 48.1013 87.025 40C87.025 31.8987 80.2143 25.0633 72.1424 25.0633C64.0705 25.0633 57.2598 31.8987 57.2598 40Z"/>
+  </g>
+
+  <!-- .NET badge -->
+  <g transform="translate(154 154)">
+    <circle cx="34" cy="34" r="38" fill="#ffffff"/>
+    <circle cx="34" cy="34" r="34" fill="#5c2d91"/>
+    <g transform="translate(2 2)" fill="#ffffff">
+      <path d="M27.27,41H24.65L15.28,26.46a6.06,6.06,0,0,1-.58-1.14h-.08a18.71,18.71,0,0,1,.1,2.5V41H12.59V22.77h2.77l9.12,14.28q.57.89.74,1.22h.05a19.29,19.29,0,0,1-.13-2.68V22.77h2.13Z"/>
+      <path d="M41.69,41H32V22.77h9.24V24.7H34.18v6.06h6.58v1.92H34.18V39h7.52Z"/>
+      <path d="M56,24.7H50.7V41H48.57V24.7H43.33V22.77H56Z"/>
+      <circle cx="7.4" cy="39.85" r="1.45"/>
+    </g>
+  </g>
+</svg>
