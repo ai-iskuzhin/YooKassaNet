@@ -1,19 +1,25 @@
-<p align="center">
-  <img src="assets/logo.png" alt="YooKassaNet" width="140" />
-</p>
-
-<h1 align="center">YooKassaNet</h1>
-
-<p align="center">
-  <a href="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/ci.yml"><img src="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/nuget/v/YooKassaNet.svg" alt="NuGet" /></a>
-</p>
-
-<p align="center">
-  <a href="README.md"><img src="https://img.shields.io/badge/README-Русский-0058D6?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Читать на русском" /></a>
-</p>
-
-.NET SDK for the [YooKassa (ЮKassa) API v3](https://yookassa.ru/developers/api): **payments**, **refunds**, **payouts**, and **safe deals**, plus webhooks and shop settings — shipped as a **single package**.
+<table>
+  <tr>
+    <td width="170" align="center" valign="middle">
+      <img src="assets/logo.png" width="140" alt="YooKassaNet logo" />
+    </td>
+    <td valign="middle">
+      <h1>YooKassaNet</h1>
+      <p>.NET SDK for the <a href="https://yookassa.ru/developers/api">YooKassa (ЮKassa) API v3</a>: <strong>payments</strong>, <strong>refunds</strong>, <strong>payouts</strong>, and <strong>safe deals</strong>, plus webhooks and shop settings — shipped as a <strong>single package</strong>.</p>
+      <p>
+        <a href="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/ci.yml"><img src="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
+        <a href="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/release.yml"><img src="https://github.com/ai-iskuzhin/YooKassaNet/actions/workflows/release.yml/badge.svg" alt="Release" /></a>
+        <a href="https://github.com/ai-iskuzhin/YooKassaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ai-iskuzhin/YooKassaNet?style=flat-square" alt="License" /></a>
+        <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/badge/targets-netstandard2.0%20%7C%20net8.0%20%7C%20net10.0-512BD4?logo=dotnet&amp;style=flat-square" alt="Targets" /></a>
+      </p>
+      <p>
+        <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/nuget/v/YooKassaNet?logo=nuget&amp;style=flat-square" alt="NuGet version" /></a>
+        <a href="https://www.nuget.org/packages/YooKassaNet"><img src="https://img.shields.io/nuget/dt/YooKassaNet?style=flat-square" alt="NuGet downloads" /></a>
+        <a href="README.md"><img src="https://img.shields.io/badge/README-Русский-0058D6?logo=googletranslate&amp;logoColor=white&amp;style=flat-square" alt="Читать на русском" /></a>
+      </p>
+    </td>
+  </tr>
+</table>
 
 - Targets `netstandard2.0`, `net8.0`, `net10.0`.
 - Only `HttpClient` + `System.Text.Json`.
