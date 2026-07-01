@@ -240,7 +240,7 @@ dotnet test tests/YooKassaNet.Tests.Integration -c Release
 
 ## Versioning
 
-Semantic Versioning. Pre-1.0 the public API may change; the first stable `1.0.0` ships after a real integration validates the surface. Release tags are `v<version>` (e.g. `v0.1.0-preview.1`).
+Semantic Versioning. From `1.0.0` the public API is stable: breaking changes will come with a major version bump. Release tags are `v<version>` (e.g. `v1.0.0`).
 
 ## License
 

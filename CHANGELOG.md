@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-01
+
+First stable release. The public API surface introduced in `0.1.0-preview.1` is now
+considered stable under Semantic Versioning; there are no functional changes since the
+preview.
+
+### Changed
+
+- Promoted the SDK to a stable `1.0.0` release.
+- README: table-layout header with logo, title, description, and full badge row.
+
 ## [0.1.0-preview.1] - 2026-06-20
 
 ### Added
@@ -20,5 +31,6 @@ All notable changes to this project are documented here. The format is based on
 - Webhooks: `YooKassaWebhooksClient` (create / list / delete) and `YooKassaNotification` parsing.
 - `YooKassaClient` facade and `/me` shop settings.
 
-[Unreleased]: https://github.com/ai-iskuzhin/YooKassaNet/compare/v0.1.0-preview.1...HEAD
+[Unreleased]: https://github.com/ai-iskuzhin/YooKassaNet/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ai-iskuzhin/YooKassaNet/compare/v0.1.0-preview.1...v1.0.0
 [0.1.0-preview.1]: https://github.com/ai-iskuzhin/YooKassaNet/releases/tag/v0.1.0-preview.1
